@@ -1,0 +1,43 @@
+---
+title: "Homework Assignment 1"
+author: "Tao Wu"
+output: pdf_document
+date: "2026-01-23"
+---
+
+1. Write R code to do the following:
+(a) Simulate a random number representing the number of shots that a basketball player makes in 10 tries, if the results of the shots are independent and she has a 40% chance of making each shot.
+
+```{r}
+set.seed(17) 
+shots_made = rbinom(10, 1, 0.4)
+sum(shots_made)
+```
+
+(b) Simulate a random number representing the number of shots that a basketball player makes in 10 tries, if the results of the shots are independent and her chance of making a shot is 10% for the first shot, 20% for the second shot, 30% for the third, etc.
+
+```{r}
+
+```
+
+2. (a) Write R code to simulate 100 data points from a linear model with intercept 1, slope 2,
+and residual standard deviation 3, where the predictors are sampled at random uniformly
+from the range (0,4). Fit a linear regression to these data using lm, print the fitted model
+using the display function from the arm package, and report whether the estimates of
+the intercept and slope fall within 1 standard error of the true parameter values.
+```{r}
+
+```
+
+(b) Fit the regression model using stan glm and print the results.
+```{r}
+
+```
+
+(c) Write a Stan program, fit the model using the cmdstanr package, and print the results.
+```{r}
+
+```
+
+
+
