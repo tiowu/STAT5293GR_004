@@ -2,22 +2,36 @@
 title: "Homework Assignment 1"
 author: "Tao Wu"
 output: pdf_document
-date: "2026-01-23"
+date: "2026-01-24"
 ---
 
 1. Write R code to do the following:
 (a) Simulate a random number representing the number of shots that a basketball player makes in 10 tries, if the results of the shots are independent and she has a 40% chance of making each shot.
 
 ```{r}
-set.seed(17) 
+set.seed(23) 
 shots_made = rbinom(10, 1, 0.4)
 sum(shots_made)
+
+# alternative
+rbinom(n = 1, size = 10, prob = 0.4)
 ```
 
 (b) Simulate a random number representing the number of shots that a basketball player makes in 10 tries, if the results of the shots are independent and her chance of making a shot is 10% for the first shot, 20% for the second shot, 30% for the third, etc.
 
 ```{r}
+set.seed(18)
+tries = 10
+shots_made = rep(NA, tries)
+for (i in 1:tries) {
+  shots_made[i] = rbinom(1, 1, 0.1*i)
+}
+sum(shots_made)
 
+# alternative
+probs = seq(0.1, 1, by = 0.1)
+shots_made_1 = rbinom(10, 1, probs)
+sum(shots_made_1)
 ```
 
 2. (a) Write R code to simulate 100 data points from a linear model with intercept 1, slope 2,
@@ -26,17 +40,57 @@ from the range (0,4). Fit a linear regression to these data using lm, print the 
 using the display function from the arm package, and report whether the estimates of
 the intercept and slope fall within 1 standard error of the true parameter values.
 ```{r}
+#install.packages("arm")
+library(arm)
+set.seed(21)
+n = 100
+beta_0 = 1 # true intercept
+beta_1 = 2 # true slope
 
+predictor = runif(n, 0, 4)
+residuals = rnorm(n, 0, 3) #residual standard deviation 3
+y = beta_0 + predictor * beta_1 + residuals
+  
+fitted_linear_model = lm(y ~ predictor)
+display(fitted_linear_model)
+
+if (abs(coef(fitted_linear_model)[1] - beta_0) <= se.coef(fitted_linear_model)[1]) {
+  print("Intercept estimate falls within 1 standard error of the true intercept value.")
+}
+if (abs(coef(fitted_linear_model)[2] - beta_1) <= se.coef(fitted_linear_model)[2]) {
+  print("Slope estimate falls within 1 standard error of the true slope value.")
+}
 ```
 
 (b) Fit the regression model using stan glm and print the results.
 ```{r}
+#install.packages("rstanarm")
+library(rstanarm)
 
+stan_linear_model = stan_glm(y ~ predictor, data = data.frame(y, predictor), refresh = 0) # add refresh = 0 to hide the sampling progress
+
+print(stan_linear_model)
 ```
 
 (c) Write a Stan program, fit the model using the cmdstanr package, and print the results.
 ```{r}
+#cmdstanr::install_cmdstan(cores = 4) #install the C++ toolchain and the CmdStan engine
 
+#install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+library(cmdstanr)
+#example(stan_model, package = "rstan", run.dontrun = TRUE)
+
+stan_data = list(n = 100, x = predictor, y = y) #prepare the data
+mod = cmdstan_model("linear_model.stan")        #compile the model
+fit_cmdstan = mod$sample(                       #fit model using MCMC
+  data = stan_data,
+  seed = 21,
+  chains = 4,
+  parallel_chains = 4,
+  refresh = 0
+)
+
+fit_cmdstan$print()
 ```
 
 
