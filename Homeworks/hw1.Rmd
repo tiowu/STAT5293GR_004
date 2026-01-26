@@ -2,8 +2,13 @@
 title: "Homework Assignment 1"
 author: "Tao Wu"
 output: pdf_document
-date: "2026-01-24"
+date: "2026-01-26"
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.pos = "!H", out.extra = "")
+```
 
 1. Write R code to do the following:
 (a) Simulate a random number representing the number of shots that a basketball player makes in 10 tries, if the results of the shots are independent and she has a 40% chance of making each shot.
@@ -62,7 +67,7 @@ if (abs(coef(fitted_linear_model)[2] - beta_1) <= se.coef(fitted_linear_model)[2
 }
 ```
 
-(b) Fit the regression model using stan glm and print the results.
+(b) Fit the regression model using *stan_glm* and print the results.
 ```{r}
 #install.packages("rstanarm")
 library(rstanarm)
@@ -72,7 +77,7 @@ stan_linear_model = stan_glm(y ~ predictor, data = data.frame(y, predictor), ref
 print(stan_linear_model)
 ```
 
-(c) Write a Stan program, fit the model using the cmdstanr package, and print the results.
+(c) Write a Stan program, fit the model using the *cmdstanr* package, and print the results.
 ```{r}
 #cmdstanr::install_cmdstan(cores = 4) #install the C++ toolchain and the CmdStan engine
 
@@ -92,6 +97,5 @@ fit_cmdstan = mod$sample(                       #fit model using MCMC
 
 fit_cmdstan$print()
 ```
-
 
 
