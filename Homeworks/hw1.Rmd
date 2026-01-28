@@ -75,6 +75,10 @@ library(rstanarm)
 stan_linear_model = stan_glm(y ~ predictor, data = data.frame(y, predictor), refresh = 0) # add refresh = 0 to hide the sampling progress
 
 print(stan_linear_model)
+# quick linear/logistic regression bayesian analysis, use stan_glm
+
+prior_summary(stan_linear_model)
+posterior_vs_prior(stan_linear_model)
 ```
 
 (c) Write a Stan program, fit the model using the *cmdstanr* package, and print the results.
@@ -96,6 +100,8 @@ fit_cmdstan = mod$sample(                       #fit model using MCMC
 )
 
 fit_cmdstan$print()
+# want full control on custom likelihoods, unusual priors, or complex hierarchical structures that aren't available in stan_glm, use cmdstanr and a .stan file
+
 ```
 
 
