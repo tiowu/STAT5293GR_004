@@ -2,7 +2,7 @@
 title: "Homework Assignment 1"
 author: "Tao Wu"
 output: pdf_document
-date: "2026-01-26"
+date: "2026-01-27"
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +18,7 @@ set.seed(23)
 shots_made = rbinom(10, 1, 0.4)
 sum(shots_made)
 
-# alternative
+# below is an alternative solution 
 rbinom(n = 1, size = 10, prob = 0.4)
 ```
 
@@ -33,7 +33,7 @@ for (i in 1:tries) {
 }
 sum(shots_made)
 
-# alternative
+# below is an alternative solution 
 probs = seq(0.1, 1, by = 0.1)
 shots_made_1 = rbinom(10, 1, probs)
 sum(shots_made_1)

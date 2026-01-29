@@ -8,8 +8,8 @@ parameters {
   real slope;             
   real<lower=0> sigma;     // residual standard deviation
 }
-# If we do not explicitly define a prior in the model block, 
-# Stan then uses a Uniform distribution like Laplace
 model {
   y ~ normal(intercept + slope * x, sigma); // Likelihood is a normal distribution
 }
+// If we do not explicitly define a prior in the model block, 
+// Stan then uses a Uniform distribution like Laplace
